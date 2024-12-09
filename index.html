@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Export HTML Form Data To Excel Sheet</title>
+</head>
+
+<body>
+    <form action="">
+        <label>UserFullName</label>
+        <input type="text" id="fullname" Value="">
+        <br>
+        <label>UserGender</label>
+        <input type="text" id="gender" Value="">
+        <br>
+        <label>Username</label>
+        <input type="text" id="name" Value="">
+        <br>
+        <label>Password</label>
+        <input type="password" id="pass" Value="">
+        <br>
+        <button onclick="ExportToExcel('xlsx')">Export Data To Excel</button>
+
+    </form>
+
+    <table id="tbl" border="1" style="display: none;">
+        <thead>
+            <th>UserFullName</th>
+            <th>UserGender</th>
+            <th>Username</th>
+            <th>Password</th>
+        </thead>
+        <tr>
+            <td id="td1">val1</td>
+            <td id="td2">val2</td>
+            <td id="td3">val3</td>
+            <td id="td4">val4</td>
+        </tr>
+    </table>
+
+
+    <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+    <script>
+        function ExportToExcel(type, fn, dl) {
+            //Get values from inputs to table
+            document.getElementById("td1").innerHTML = document.getElementById("fullname").value;
+            document.getElementById("td2").innerHTML = document.getElementById("gender").value;
+            document.getElementById("td3").innerHTML = document.getElementById("name").value;
+            document.getElementById("td4").innerHTML = document.getElementById("pass").value;
+
+            var elt = document.getElementById('tbl');
+            var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
+            return dl ?
+                XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }) :
+                XLSX.writeFile(wb, fn || ('NagehSheet.' + (type || 'xlsx')));
+        }
+    </script>
+</body>
+
+</html>
